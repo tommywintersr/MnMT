@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
 
+import Login from './components/Login';
+
 function cacheImages(images) {
 	return images.map(image => {
 		if (typeof image === 'string') {
@@ -23,7 +25,7 @@ export default class App extends React.Component {
 	}
 
 	async _loadAssetsAsync() {
-		const imageAssets = cacheImages([require('./assets/images/bg.jpg')]);
+		const imageAssets = cacheImages([require('./assets/bg.jpg')]);
 
 		await Promise.all([...imageAssets]);
 	}
@@ -39,10 +41,9 @@ export default class App extends React.Component {
 			);
 		}
 
+    //when AppLoading isReady, render!
 		return (
-			<View>
-				<Text>Hello world, this is my app.</Text>
-			</View>
+			<Login/>
 		);
 	}
 }
