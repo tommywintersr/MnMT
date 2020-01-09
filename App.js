@@ -1,18 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LoginCard from './components/login-screen/login-card/LoginCard';
+import { View } from 'react-native';
+import MainCard from './components/shared-components/CardView/MainCard';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <LoginCard />
+    <View>
+		  <MainCard />
     </View>
   );
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
+}
