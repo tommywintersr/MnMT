@@ -11,7 +11,7 @@ gym and a trainer that is rated by both the existing users on the platform and t
 Overall Train is an mobile application that gets trainees and trainers more involved in helping each other grow
 and develop both physically and in health.
 
-Developers Guide to get started
+<b>Developers Guide to get started</b>
 
 In order to begin working on the project you will need the following things:
 <ul>
