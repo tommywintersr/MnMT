@@ -1,7 +1,7 @@
 # MnMT
-An app made by fitness enthusiasts, for fitness enthusiast.
+An app made by fitness enthusiasts, for fitness enthusiasts.
 
-<s>Project Description:</s>
+<b>Project Description:</b> <br />
 Train is an app designed for fitness trainers to manage their clients or trainees. Train allows the trainers 
 to set reminders for their clientele so that the trainees can maintain their nutritional regimine and workouts. 
 In addition, Train assists trainees to keep in contact with their trainer and keep up to date with their trainers
@@ -21,9 +21,7 @@ In order to begin working on the project you will need the following things:
     <li>Expo-CLI (npm install -g expo-cli)</li>
 </ul>
 
-
-How to run the app
-<s>Android:</s>
+<b>Android:</b>
 <ol>
     <li>First open your Android Emulator running on API 28. Wait for it to finish booting up.</li>
     <li>Open a commandline of your choice (I recommmend bash or Node CLI)</li>
@@ -33,10 +31,19 @@ How to run the app
 </ol>
 
 
-<s>iOS:</s>
+<b>iOS:</b>
 <ol>
     <li>Open the commandline of your choice. On mac just use the terminal.</li>
     <li>Run the following command 'cd <PROJECT DIRECTORY> && expo start'</li>
     <li>Wait for expo to do it's thing</li>
     <li>With the commandline focused, press the 'i' key on your keyboard to run the app on the xCode simulator</li>
 </ol>
+
+<b>important documentation</b>
+<ul>
+    <li>https://facebook.github.io/react-native/docs/handling-touches</li>
+    <li>https://facebook.github.io/react-native/docs/using-a-scrollview</li>
+    <li>https://facebook.github.io/react-native/docs/using-a-listview</li>
+    <li>https://facebook.github.io/react-native/docs/network</li>
+    <li>https://www.freecodecamp.org/news/understanding-flexbox-everything-you-need-to-know-b4013d4dc9af/</li>
+</ul>
