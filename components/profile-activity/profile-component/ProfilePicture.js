@@ -10,7 +10,7 @@ export default class ProfilePicture extends React.Component {
         return ( 
             <View>
                 <Image
-                    style={{width: 200, height: 200, borderRadius: 200, borderColor: 'yellow', borderWidth: 4}}
+                    style={{width: 250, height: 250, borderRadius: 250, borderColor: '#F2DA00', borderWidth: 6}}
                     source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
                 />
             </View>
