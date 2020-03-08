@@ -1,42 +1,90 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Animated from 'react-native-reanimated';
 
-function AboutScreen() {
+function MyTabBar({ state, descriptors, navigation, position }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>About</Text>
+    <View style={{ flexDirection: 'row', paddingTop: 20 }}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+        // modify inputRange for custom behavior
+        const inputRange = state.routes.map((_, i) => i);
+        const opacity = Animated.interpolate(position, {
+          inputRange,
+          outputRange: inputRange.map(i => (i === index ? 1 : 0)),
+        });
+
+        return (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityStates={isFocused ? ['selected'] : []}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={{ flex: 1 }}
+          >
+            <Animated.Text style={{ opacity }}>{label}</Animated.Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
 
-function PostsScreen() {
+function HomeScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'orange'}}>
-      <Text>Posts</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
     </View>
   );
 }
 
 const Tab = createMaterialTopTabNavigator();
 
-export default class ProfileDesc extends React.Component {
-    render() {
-        return (
-            <NavigationContainer>
-                <Tab.Navigator
-                    initialRouteName="Posts"
-                    tabBarOptions={{
-                      activeTintColor: '#e91e63',
-                      labelStyle: { fontSize: 16 },
-                      style: { backgroundColor: 'powderblue' },
-                    }}>
-                    <Tab.Screen name="About" component={AboutScreen} />
-                    <Tab.Screen name="Posts" component={PostsScreen} />
-                </Tab.Navigator>
-            </NavigationContainer>
-        ); 
-  }
-    
+export default function ProfileDesc() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
