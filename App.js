@@ -9,12 +9,17 @@ import Notification from './components/notification-activity/Notification';
 import Post from './components/post-activity/Post';
 import Message from './components/message-activity/Message';
 
+import fireStoreAuth from './util/Auth'
 
 class HomeScreen extends React.Component {
   render() {
     return (
        <MainCard style={styles.container}/>
     )
+  }
+
+  componentDidMount() {
+    fireStoreAuth();
   }
 }
 class NotificationScreen extends React.Component {
