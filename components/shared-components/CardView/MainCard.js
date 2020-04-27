@@ -9,15 +9,46 @@ import {
 } from 'react-native';
 
 import Card from './Card';
+import PostBox from '../PostBox'
 
 export default class LoginCard extends React.Component {
-
     constructor(props) {
       super(props);
       this.state = {
+        showPostBox: true,
         cardArray: [],
-        cardText: '',
+        cardText: "",
+        image: null
       }
+      this.postBox = React.createRef();
+    }
+
+    handleCard = (data) => {
+      if(data) {
+        var date = new Date();
+        this.state.cardArray.push({
+          'date': date.toString(),
+          'note': data.cardText,
+          'img': data.image
+        });
+        this.setState({ cardArray: this.state.cardArray });
+        }
+    }
+    showPostBox = (val) => {
+      if(this.state.showPostBox || !val) {
+        this.postBox.current.hideModal();
+        this.setState({showPostBox: false})
+      } else {
+        this.setState({showPostBox: true})
+        this.postBox.current.showModal();
+      }
+    }
+    _renderPostBox = () => {
+        return (
+          <View style={styles.footer}>
+            <PostBox ref={this.postBox} style={[{width: 0, height: 0}, this.state.showPostBox && {width: 400, height: 400,}]} showPostBox={this.showPostBox} card={this.handleCard} />
+          </View>
+        );
     }
 
     render() {
@@ -33,46 +64,18 @@ export default class LoginCard extends React.Component {
 
       return ( 
           <View style={styles.container}>
+              {this._renderPostBox()}
               <View style={styles.header}>
-                  <Text style={styles.headerText}>Mind & Matters</Text>
+                <Text style={styles.headerText}>Mind & Matters - {this.state.cardText.toString()}</Text>
               </View>
-
               <ScrollView style={styles.scrollContainer}>
                 {cards}
               </ScrollView>
-
-              <View style={styles.footer}>
-                  <TextInput 
-                      style={styles.textInput}
-                      onChangeText={(cardText) => this.setState({cardText})}
-                      value={this.state.cardText}
-                      placeholder='>Name for new card...'
-                      placeholderTextColor='white'
-                      underlineColorAndroid='transparent'>
-                  </TextInput>
-              </View>
-
-              <TouchableOpacity onPress={ this.addCard.bind(this) } style={styles.addButton}>
+              <TouchableOpacity onPress={ this.showPostBox } style={styles.addButton}>
                   <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
-
           </View>
         );
-    }
-
-    addCard() {
-      if(this.state.cardText) {
-        var date = new Date();
-        this.state.cardArray.push({
-          'date': date.getFullYear() + 
-          "/" + (date.getMonth() + 1) + 
-          "/" + date.getDate(),
-
-          'note': this.state.cardText
-        });
-        this.setState({ cardArray: this.state.cardArray });
-        this.setState({ cardText: '' });
-      }
     }
 
     deleteCard(key) {
@@ -84,6 +87,9 @@ export default class LoginCard extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    displayNone:{
+      display: 'none'
     },
     header: {
         backgroundColor: '#E91E63',
@@ -99,14 +105,16 @@ const styles = StyleSheet.create({
       },
       scrollContainer: {
         flex: 1,
-        marginBottom: 100,
+        marginBottom: 150,
+        padding: 10
       },
       footer: {
         position: 'absolute',
+        alignSelf: 'stretch',
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 10,
+        zIndex: 11
       },
       textInput: {
         alignSelf: 'stretch',
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 11,
         right: 20,
-        bottom: 90,
+        bottom: 30,
         backgroundColor: '#E91E63',
         width: 60,
         height: 60,
