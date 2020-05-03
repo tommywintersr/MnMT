@@ -1,4 +1,6 @@
 import React from 'react';
+import firebase from '../firebase/firebase';
+
 import { 
     StyleSheet, 
     Text, 
@@ -10,17 +12,29 @@ import {
 
 import Card from './Card';
 
-export default class LoginCard extends React.Component {
+export default class MainCard extends React.Component {
 
     constructor(props) {
       super(props);
       this.state = {
         cardArray: [],
         cardText: '',
+        uid: ''
       }
     }
 
+    signOut = () => {
+      firebase.auth().signOut().then(() => {
+        this.props.navigation.navigate('Login')
+      })
+      .catch(error => this.setState({ errorMessage: error.message }))
+    }  
+
     render() {
+      this.state = { 
+        displayName: firebase.auth().currentUser.displayName,
+        uid: firebase.auth().currentUser.uid
+      }  
 
       let cards = this.state.cardArray.map((val, key) => {
         return <Card key={key} 
@@ -36,6 +50,12 @@ export default class LoginCard extends React.Component {
               <View style={styles.header}>
                   <Text style={styles.headerText}>Mind & Matters</Text>
               </View>
+
+              <Button
+                color="#3740FE"
+                title="Logout"
+                onPress={() => this.signOut()}
+              />
 
               <ScrollView style={styles.scrollContainer}>
                 {cards}
